@@ -1,0 +1,411 @@
+I"�D<blockquote>
+  <p>本文是自己学习Linux的一节笔记， 主要介绍 Linux 中 计划任务 与日志管理中使用， 其中计划任务用到<code class="language-plaintext highlighter-rouge">at</code> 和 <code class="language-plaintext highlighter-rouge">cron</code>的命令, 日志管理用到 <code class="language-plaintext highlighter-rouge">rsyslog</code> 和 <code class="language-plaintext highlighter-rouge">systemd-journald </code>等 。</p>
+</blockquote>
+
+<h3 id="一计划任务atcron使用方法">一、计划任务at、cron使用方法</h3>
+
+<h4 id="at">at</h4>
+
+<p><code class="language-plaintext highlighter-rouge">at</code> 命令 只执行一次，一次后就不会在继续执行。</p>
+
+<p>服务使用:</p>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">atd</code>  状态、开启、停止、重新开启</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>systemctl status| start | stop | restart  atd   
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>查看是否开机启用</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>systemctl is-enabled | disable | enable  atd 
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>添加 <code class="language-plaintext highlighter-rouge">atd</code> 黑名</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>vim /etc/at.deny
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>添加 <code class="language-plaintext highlighter-rouge">atd</code> 白名单，优先级更高， 即黑白名单都有该用户，已白名单为主</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre> vim /etc/at.allow  
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>命令使用 :</p>
+
+<ol>
+  <li>
+    <p>是查看定时任务列表</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>  at -l | atq 
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>设置定时任务（会出现跟mysql的命令一样的窗口）, 按 <code class="language-plaintext highlighter-rouge">ctrl</code> + <code class="language-plaintext highlighter-rouge">d</code>退出定时任务设定</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>  at + 时间 
+  eg:
+  at 20:00  // 设置晚上8点执行
+  at 20:00 2021-09-08 // 设置到对应时间点执行
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>移除对应id的定时任务, id 可以通过 <code class="language-plaintext highlighter-rouge">at -l</code> 或 <code class="language-plaintext highlighter-rouge">atq</code>查看</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>  atrm + 数字（任务列表id）  
+  eg: 
+  atrm 2 // 删除id为2的定时任务
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>生成的<code class="language-plaintext highlighter-rouge">at</code>定时任务文件 ，在 <code class="language-plaintext highlighter-rouge">/var/spool/at/</code>目录下</p>
+  </li>
+</ol>
+
+<h4 id="cron">cron</h4>
+
+<p><code class="language-plaintext highlighter-rouge">crontab</code> 的命令是会一直循环下去执行，at 只执行一次该命令则消失。</p>
+
+<p>服务使用:</p>
+
+<ol>
+  <li>
+    <p>cron服务的使用</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>systemctl start | stop | restart | status crond  
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>cron服务开机是否启用</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>systemctl is-enabled | enable | disable crond 
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>命令使用:</p>
+
+<ol>
+  <li>
+    <p>命令的查看，编辑，删除</p>
+
+    <p><img src="/assets/images/2020/1-16-cron1.png" alt="1-16-cron1" /></p>
+  </li>
+  <li>
+    <p>crontab -e 的使用</p>
+
+    <p><img src="/assets/images/2020/1-16-cron2.png" alt="1-16-cron2" style="zoom:50%;" /></p>
+
+    <p><img src="/assets/images/2020/1-16-cron3.png" alt="1-16-cron3" style="zoom:50%;" /></p>
+
+    <p>eg:</p>
+
+    <p><img src="/assets/images/2020/1-16-cron4.png" alt="1-16-cron4" style="zoom:50%;" /></p>
+  </li>
+  <li>
+    <p>/etc/目录下的cron文件</p>
+
+    <p><img src="/assets/images/2020/1-16-cron5.png" alt="1-16-cron5" style="zoom:50%;" /></p>
+  </li>
+  <li>
+    <p>anacron  是周期性检查有没有执行crontab，没有执行的会去执行</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>anacron // 系统关机可能会存在某段时间没执行crontab，
+vim /etc/anacrontab  // anacron的配置文件信息
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="二日志的种类和记录方式">二、日志的种类和记录方式</h3>
+
+<h4 id="rsyslog-维护的日志">rsyslog 维护的日志</h4>
+
+<blockquote>
+  <ol>
+    <li><code class="language-plaintext highlighter-rouge">/var/log/</code> 目录下的文件，有<code class="language-plaintext highlighter-rouge">rsyslog</code> 维护，里面主要是放一些特定的系统 和服务日志文件</li>
+    <li>开机之后和之前所有的开机后的日志信息， 存储在磁盘里， 而 journalctl 是存储在内存里， 只有保存当前开机后的日志信息，一但重新启动，那上一次的journalctl记录的信息都会不见</li>
+  </ol>
+</blockquote>
+
+<h5 id="1-varlog目录的日志结构">1. var/log/目录的日志结构</h5>
+
+<p><img src="/assets/images/2020/1-16-rsyslog1.png" alt="1-16-rsyslog1" style="zoom:50%;" /></p>
+
+<h5 id="2-varlogwtmp-文件的作用">2. /var/log/wtmp 文件的作用</h5>
+
+<p><code class="language-plaintext highlighter-rouge">var/log/wtmp</code>是一个二进制文件，记录每个用户的登录次数和持续时间等信息。</p>
+
+<ul>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>last</td>
+          <td>last -f /var/log/wtmp 可以输出文件的内容， 用vim 是查看不了的</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<h5 id="3-varlogbtmp-文件的作用">3. /var/log/btmp 文件的作用</h5>
+
+<p>#####</p>
+
+<p><code class="language-plaintext highlighter-rouge">/var/log/btmp</code> 文件是记录错误登录系统的日志</p>
+
+<ul>
+  <li>
+    <p>如果发现/var/log/btmp 日志文件比较大，大于 1M，就 算大了，就说明很多人在暴力破解 ssh 服务，此日志需要使用 <code class="language-plaintext highlighter-rouge">lastb</code> 程序查看</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>lastb
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+
+    <p><img src="/assets/images/2020/1-16-rsyslog2.png" alt="1-16-rsyslog2" style="zoom:50%;" /></p>
+
+    <p>​		发现后，使用防火墙，拒绝掉. 命令如下:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>	iptables -A INPUT -i ens33 -s 192.168.1.63(暴力破解地址) -j DROP
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>清空日志的方法</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>&gt; /var/log/btmp   // 这种方法比下面的好
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="nb">rm</span> <span class="nt">-rf</span> /var/log/btmp <span class="o">&amp;&amp;</span> <span class="nb">touch</span> /var/log/btmp  // 执行次方法，需要重新启动rsyslog服务，因为删除了文件，服务原先指定写入文件是通过inode ，删除了就找不到了
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <h5 id="4-rsyslog-配置文件-vim-etcrsyslogconf">4. rsyslog 配置文件 vim /etc/rsyslog.conf</h5>
+
+    <h5><img src="/assets/images/2020/1-16-rsyslog3.png" alt="1-16-rsyslog3" /></h5>
+
+    <p><img src="/assets/images/2020/1-16-rsyslog4.png" alt="1-16-rsyslog4" /></p>
+
+    <p><img src="/assets/images/2020/1-16-rsyslog5.png" alt="1-16-rsyslog5" /></p>
+  </li>
+</ul>
+
+<p>####</p>
+
+<h4 id="systemd-journald-维护的日志">systemd-journald 维护的日志</h4>
+
+<blockquote>
+  <p>在开机之后记录日志信息，存储在内存里，重启后，则上一次的日志信息都会存在。</p>
+</blockquote>
+
+<p>服务使用:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>systemctl start | stop | restart | status  systemd-journald  // 服务的使用
+systemctl is-enabled | enable | disable systemd-journald // 查看是否开机启用
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>命令使用:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>journalctl -u ping127  // 查看ping127的执行周期
+journalctl -h  // 查看journalctl  的常用命令
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h4 id="日志的记录方式">日志的记录方式</h4>
+
+<ol>
+  <li>
+    <p>日志分类</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre>daemon   //后台进程相关
+kern 		// 内核产生的信息
+lpr 		// 打印系统产生的
+authpriv // 安全认证
+cron 		// 定时相关
+mail 		// 邮件相关
+syslog 	// 日志服务本身的
+news 		// 新闻系统
+local0~7 // 自定义的日志设备
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>日志级别</p>
+
+    <p><img src="/assets/images/2020/1-16-logfangshi3.png" alt="1-16-logfangshi3" /></p>
+
+    <p><img src="/assets/images/2020/1-16-logfangshi4.png" alt="1-16-logfangshi4" /></p>
+
+    <p><img src="/assets/images/2020/1-16-logfangshi5.png" alt="1-16-logfangshi5" /></p>
+  </li>
+  <li>
+    <p>日志输入规则</p>
+
+    <p><img src="/assets/images/2020/1-16-logfangshi6.png" alt="1-16-logfangshi6" /></p>
+  </li>
+</ol>
+
+<h3 id="三如何手写一个服务service执行文件">三、如何手写一个服务service执行文件</h3>
+
+<ol>
+  <li>
+    <p>先创建一个执行的脚本文件， 如：/root/temp/ping127.sh</p>
+
+    <p><img src="/assets/images/2020/1-16-service1.png" alt="1-16-service1" /></p>
+  </li>
+  <li>
+    <p>再创建一个service文件，如：/usr/lib/systemd/system/ping127.service</p>
+
+    <p><img src="/assets/images/2020/1-16-service2.png" alt="1-16-service2" /></p>
+  </li>
+  <li>
+    <p>最后再创建一个 timer文件， 如：/usr/lib/systemd/system/ping127.timer</p>
+
+    <p><img src="/assets/images/2020/1-16-service3.png" alt="1-16-service3" /></p>
+  </li>
+  <li>
+    <p>写完这几个文件后执行</p>
+  </li>
+</ol>
+
+<p><img src="/assets/images/2020/1-16-service4.png" alt="1-16-service4" /></p>
+
+<h3 id="四实战-自定义-ssh-服务的日志类型和存储位置">四、实战-自定义 ssh 服务的日志类型和存储位置</h3>
+
+<ol>
+  <li>先修改 rsyslog 配置文件信息 vim /etc/rsyslog.conf</li>
+</ol>
+
+<p><img src="/assets/images/2020/1-16-ssh1.png" alt="1-16-ssh1" /></p>
+
+<ol>
+  <li>修改ssh配置文件信息， 定义 ssh 服务的日志类别为 local0</li>
+</ol>
+
+<p><img src="/assets/images/2020/1-16-ssh2.png" alt="1-16-ssh2" /></p>
+
+<ol>
+  <li>
+    <p>重新启动服务</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>systemctl restart rsyslog
+systemctl restart sshd
+cat /var/log/sshd.log  // 查看验证是否生效
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>如何防止日志被删除</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>chattr +a /var/log/sshd.log  // 添加不可删除权限
+lsattr /var/log/sshd.log  // 查看下是有用添加进去
+(日志太大后，由于不可删除，切割该日志会报错，还有黑客也是可以修改该属性的)
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="五日志切割-搭建远程日志收集服务器">五、日志切割-搭建远程日志收集服务器</h3>
+
+<h4 id="日志切割--logrotate">日志切割  logrotate</h4>
+
+<blockquote>
+  <ol>
+    <li>Logrotate 支持 按时间和大小来自动切分,以防止日志文件太大。</li>
+    <li>logrotate 的执行由 crond 服务调用的。</li>
+  </ol>
+</blockquote>
+
+<ul>
+  <li>
+    <p>配置文件</p>
+
+    <p>/etc/logrotate.conf</p>
+
+    <p><img src="/assets/images/2020/1-16-loggrotate1.png" alt="1-16-loggrotate1" /></p>
+
+    <p><img src="/assets/images/2020/1-16-loggrotate2.png" alt="1-16-loggrotate2" /></p>
+  </li>
+  <li>
+    <p>明细配置文件目录</p>
+
+    <p>/etc/logrotate.d/</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre> vim /etc/cron.daily/logrotate #查看 logrotate 脚本内容
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+
+    <p>logrotate 程序每天由 cron 在指定的时间(/etc/crontab)启动</p>
+  </li>
+</ul>
+
+<h4 id="练习">练习</h4>
+
+<p>编辑配置文件<code class="language-plaintext highlighter-rouge">/etc/logrotate.conf </code></p>
+
+<p><img src="/assets/images/2020/1-16-loggrotate1.png" alt="1-16-loggrotate1" /></p>
+
+<p>单配置 logrotate 例子</p>
+
+<p><img src="/assets/images/2020/1-16-loggrotate3.png" alt="1-16-loggrotate3" style="zoom:50%;" /></p>
+
+<p><img src="/assets/images/2020/1-16-loggrotate4.png" alt="1-16-loggrotate4" style="zoom:50%;" /></p>
+
+<ol>
+  <li>
+    <p>参数说明:</p>
+
+    <p><img src="/assets/images/2020/1-16-loggrotate5.png" alt="1-16-loggrotate5" /></p>
+
+    <p><img src="/assets/images/2020/1-16-loggrotate6.png" alt="1-16-loggrotate6" /></p>
+
+    <p><img src="/assets/images/2020/1-16-loggrotate7.png" alt="1-16-loggrotate7" /></p>
+
+    <p><img src="/assets/images/2020/1-16-loggrotate8.png" alt="1-16-loggrotate8" /></p>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>systemctl restart rsyslog
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

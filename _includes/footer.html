@@ -10,12 +10,16 @@
   <div class="d-flex justify-content-between align-items-center">
     <div class="footer-left">
       <p class="mb-0">
-        © {{ 'now' | date: "%Y" }}
+        <!-- © {{ 'now' | date: "%Y" }}
         <a href="{{ site.social.links[0] }}">{{ site.social.name }}</a>.
         {% if site.data.rights.brief %}
         <span data-toggle="tooltip" data-placement="top"
           title="{{ site.data.rights.verbose }}">{{ site.data.rights.brief }}</span>
-        {% endif %}
+        {% endif %} -->
+        <span class="footer__copyright" style="padding-bottom: 15px;">本站由
+           <a href="http://www.chouwazi.cn">@chouwazi</a>- © 2020 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="http://beian.miit.gov.cn/" target="_blank" class="item">闽ICP备20003565号</a>
+        </span>
       </p>
     </div>
 

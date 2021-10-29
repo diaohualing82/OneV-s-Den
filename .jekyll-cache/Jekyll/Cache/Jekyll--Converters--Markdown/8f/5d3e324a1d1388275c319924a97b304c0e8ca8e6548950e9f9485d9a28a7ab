@@ -1,0 +1,150 @@
+I"�<h3 id="一-osi-七层模型-和-tcpip-四层模型">一、 OSI 七层模型 和 TCP/IP 四层模型</h3>
+
+<h4 id="osi-七层模型">OSI 七层模型</h4>
+
+<ul>
+  <li>
+    <p>7 应用层</p>
+
+    <p>提供用户界面，这层应用的协议有： TELNET/ HTTP/FTP/SNMP</p>
+  </li>
+  <li>
+    <p>6 表示层</p>
+
+    <p>表示数据，进行加密等处理；负责数据编码，转化；语言转化；数据解压缩；</p>
+  </li>
+  <li>
+    <p>5 会话层</p>
+
+    <p>将不同的应用数据分离，即区分会话，管理不同主机间的会话，如NFS就在这一层工作</p>
+  </li>
+  <li>
+    <p>4 传输层 （单位：数据段）</p>
+
+    <p>分割、组合数据，端到端的逻辑连接，协议有：TCP/UDP  （防火墙）</p>
+  </li>
+  <li>
+    <p>3 网络层 （单位: 数据包）</p>
+
+    <p>管理网络地址和定位设备，决定路由 （IP和路由在这层），协议有：IP/RIP等  （三层交换机、路由器)</p>
+  </li>
+  <li>
+    <p>2 数据链路层 （单位：帧）</p>
+
+    <p>将分组拆分为字节，并讲字节组合成帧，使用 MAC 地址 提供介质访问，执行错误检测（CRC校验），但不纠错， 协议有：SDLC/PPP/STP等   （二层交换机，网卡）</p>
+  </li>
+  <li>
+    <p>1 物理层 （单位：比特流）</p>
+
+    <p>在设备之间传输比特，指定电平，电缆速度和电缆针脚   （集线器）</p>
+  </li>
+</ul>
+
+<h4 id="tcpip-四层模型">TCP/IP 四层模型</h4>
+
+<blockquote>
+  <p>为什么现在网络通信过程用TCP/IP四层，而不适用OSI七层模型？</p>
+</blockquote>
+
+<p>OSI 七层模型是理论模型，一般用于理论研究，他的分层有些冗余，实际应用，选择 TCP/IP 的四层模型。而且 OSI 自身也有缺陷，大多数人都认为 OSI 模型的层次数量与内容可能是最佳的选择，其实并非如此，其中会话层和表示层几乎是空的，而数据链路层和网络层包含内容太多，有很多的子层插入，每个子层都有不同的功能。</p>
+
+<h4 id="常见的网络协议">常见的网络协议</h4>
+
+<ul>
+  <li>
+    <p>ARP</p>
+
+    <p>ARP(Address Resolution Protocol):地址解析协议，将 IP 解析成 MAC 地址</p>
+  </li>
+  <li>
+    <p>DNS</p>
+
+    <p>DNS:域名解析协议 www.baidu.com</p>
+  </li>
+  <li>
+    <p>SNMP</p>
+
+    <p>SNMP(Simple Network Management Protocol)网络管理协议</p>
+  </li>
+  <li>
+    <p>DHCP</p>
+
+    <p>DHCP(Dynamic Host Configuration Protocol)动态主机配置协议，它是在 TCP/IP 网络上使客户机获得配置信息的协议</p>
+  </li>
+  <li>
+    <p>FTP</p>
+
+    <p>FTP(File Transfer Protocol)文件传输协议，它是一个标准协议，是在计算机和网络之间交换文件的最简单的方法。</p>
+  </li>
+  <li>
+    <p>HTTP</p>
+
+    <p>HTTP(Hypertext Transfer Protocol ):超文本传输协议</p>
+  </li>
+  <li>
+    <p>HTTPS</p>
+
+    <p>HTTPS(Secure Hypertext Transfer Protocol):安全超文本传输协议，它是由 Netscape 开发并内置于其
+浏览器中，用于对数据进行压缩和解压操作.</p>
+  </li>
+  <li>
+    <p>ICMP</p>
+
+    <p>ICMP(Internet Control Message Protocol):Internet 控制信息协议,互联网控制报文协议ping ip 定义消息类型有:TTL 超时、地址的请求与应答、信息的请求与应答、目的地不可到达</p>
+  </li>
+  <li>
+    <p>SMTP</p>
+
+    <p>SMTP(Simple Mail Transfer Protocol):简单邮件传送协议</p>
+  </li>
+  <li>
+    <p>TELNET</p>
+
+    <p>TELNET Protocol:虚拟终端协议</p>
+  </li>
+  <li>
+    <p>TFTP</p>
+
+    <p>TFTP(Trivial File Transfer Protocol):小文件传输协议</p>
+  </li>
+  <li>
+    <p>UDP</p>
+
+    <p>UDP(User Datagram Protocol):用户数据报协议，它是定义用来在互连网络环境中提供包交换的计算机通 信的协议</p>
+  </li>
+  <li>
+    <p>TCP</p>
+
+    <p>TCP(Transmission Control Protocol): 传输控制协议，是一种面向连接的、可靠的、基于字节流的传输 层通信协议 log 转发:开启一个协议:tcp(三次握手和四次挥手)</p>
+  </li>
+</ul>
+
+<h4 id="tcp-和-udp-区别">TCP 和 UDP 区别</h4>
+
+<ol>
+  <li>基于连接与无连接;</li>
+  <li>对系统资源的要求(TCP 较多，UDP 少);</li>
+  <li>UDP 程序结构较简单;UDP 信息包的标题很短，只有 8 个字节，相对于 TCP 的 20 个字节信息包的额外开销很小。所以传输速度可更快</li>
+  <li>TCP 保证数据正确性，UDP 可能丢包;TCP 保证数据顺序，UDP 不保证。</li>
+  <li>TCP 和 UDP 常用端口号</li>
+</ol>
+
+<ul>
+  <li>21 ： ftp : 文件传输服务</li>
+  <li>22 : ssh : 安全远程连接服务</li>
+  <li>23 : telnet : 远程连接服务</li>
+  <li>25 : smtp : 电子邮件服务</li>
+  <li>53 : DNS : 域名解析服务，有 tcp53 也有用 udp53 端口传输</li>
+  <li>80 : http : web 服务</li>
+  <li>443 : https : 安全web服务</li>
+</ul>
+
+<blockquote>
+  <p>如果你不知道哪个端口对应哪个服务怎么办?如 873 端口是哪个服务的?</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><!-- <td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td> --><td class="rouge-code"><pre>vim /etc/services #此文件中,包含所有常见端口号及服务名称
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

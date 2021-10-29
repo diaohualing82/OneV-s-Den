@@ -1,0 +1,261 @@
+I"� <p>-–</p>
+
+<p>layout: post</p>
+
+<p>title: “ Shell 脚本基础理”</p>
+
+<p>date: 2020-07-12 21:35:00.000000000 +09:00</p>
+
+<p>categories: [Linux学习]</p>
+
+<p>tags: [shell]</p>
+
+<p>-–</p>
+
+<h3 id="一-shell-基本语法">一、 shell 基本语法</h3>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">shell</code> 是一个命令解释器， 终端命令其实也是一个<code class="language-plaintext highlighter-rouge">shell</code></p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>编程语言分类</p>
+
+    <ol>
+      <li>低级语言:</li>
+    </ol>
+
+    <ul>
+      <li>机器语言/汇编语言</li>
+    </ul>
+
+    <ol>
+      <li>高级语言:</li>
+    </ol>
+
+    <ul>
+      <li>
+        <p>静态语言/ 编译型语言</p>
+
+        <blockquote>
+          <p>C / C++ / java</p>
+        </blockquote>
+      </li>
+      <li>
+        <p>动态语言 / 解释型语言</p>
+
+        <blockquote>
+          <p>php / shell / python / perl</p>
+        </blockquote>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>shell 脚本</p>
+
+    <ol>
+      <li>
+        <p>shell 脚本就是把shell命令放在一个文件里，然后通过该文件去执行</p>
+      </li>
+      <li>
+        <p>shell 注释</p>
+      </li>
+    </ol>
+
+    <blockquote>
+      <p>!/bin/bash 作用:告诉脚本使用的是哪种命令解释器。如不指shell，以当前shell作为执行的 shell。</p>
+    </blockquote>
+
+    <ol>
+      <li>
+        <p>shell 执行的方式</p>
+
+        <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>/root/test.sh  // 当前路径下执行脚本的话要有执行权限 <span class="nb">chmod</span> +x test.sh
+bash test.sh 或 sh test.sh <span class="o">(</span>该方式可不用对脚本文件添加执行权限<span class="o">)</span> 
+<span class="nb">source </span>test.sh <span class="o">||</span> <span class="nb">.</span> test.sh  <span class="o">(</span>可以没有执行权限<span class="o">)</span>
+</pre></td></tr></tbody></table></code></pre></div>        </div>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="二-shell变量及运用">二、 shell变量及运用</h3>
+
+<h4 id="变量的设置规则">变量的设置规则：</h4>
+
+<ol>
+  <li>
+    <p>以由数字、字母(大小写)和下划线_组成。变量名区分大小写，变量名称不能以数字开头</p>
+  </li>
+  <li>
+    <p>= 两边不能有空格</p>
+  </li>
+  <li>
+    <p>存储的数据类型是整数值和字符串值</p>
+  </li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>“$变量名”</td>
+          <td>${变量名}</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ol>
+
+<h4 id="变量的分类">变量的分类：</h4>
+
+<ul>
+  <li>
+    <p>按作用来分</p>
+
+    <ol>
+      <li>
+        <p>用户自定义变量;</p>
+      </li>
+      <li>
+        <p>环境变量 ;  eg: <code class="language-plaintext highlighter-rouge">$PATH</code>、<code class="language-plaintext highlighter-rouge">$HOME</code>、<code class="language-plaintext highlighter-rouge">$PWD</code></p>
+      </li>
+      <li>
+        <p>位置参数变量； eg: <code class="language-plaintext highlighter-rouge">$1</code>, <code class="language-plaintext highlighter-rouge">$2</code>…</p>
+      </li>
+      <li>
+        <p>预定义变量; eg: <code class="language-plaintext highlighter-rouge">$USER</code>; <code class="language-plaintext highlighter-rouge">$UID</code></p>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p>按作用域</p>
+
+    <ul>
+      <li>局部变量</li>
+      <li>
+        <p>全局变量</p>
+
+        <ul>
+          <li>
+            <ol>
+              <li>使用export命令</li>
+            </ol>
+          </li>
+          <li>
+            <ol>
+              <li>/etc/profile、/etc/bashrc、/root/.bashrc、/root/.bash_profile    // 在这些文件里添加</li>
+            </ol>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="在一条命令中调用其他命令">在一条命令中调用其他命令：</h4>
+
+<ol>
+  <li>
+    <p>echo `date` // 在``里写入命令</p>
+  </li>
+  <li>
+    <p>echo $(date) // 同上</p>
+  </li>
+  <li>
+    <p>命令嵌套 <code class="language-plaintext highlighter-rouge">$($())</code></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>VAR6=$(tar zcvf root.tar.gz $(find /root/ -name *.txt))
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="shell-中单引号和双引号区别">shell 中单引号和双引号区别</h4>
+
+<ol>
+  <li>
+    <p>单引号</p>
+
+    <p>所有的字符包括特殊字符($,’’,`和)都将解释成字符本身而成为普通字符</p>
+  </li>
+  <li>
+    <p>双引号</p>
+
+    <p>有特殊符号会保留它的特殊含义</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">\</code></p>
+
+    <p><code class="language-plaintext highlighter-rouge">\</code>转义符，跟在<code class="language-plaintext highlighter-rouge">\</code>之后的一个特殊符号将失去特殊含义，变为普通字符</p>
+  </li>
+</ol>
+
+<h4 id="删除变量使用-unset">删除变量使用 unset</h4>
+
+<h4 id="特殊变量">特殊变量</h4>
+
+<ol>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">$*</code></p>
+
+    <p>以一个单字符串显示所有向脚本传递的参数</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">$#</code></p>
+
+    <p>传递到脚本的参数个数</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">$$</code></p>
+
+    <p>当前进程的进程号 <code class="language-plaintext highlighter-rouge">PID</code></p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">$?</code></p>
+
+    <p>最后命令的退出状态</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">$!</code></p>
+
+    <p>后台运行的最后一个进程的进程号 <code class="language-plaintext highlighter-rouge">pid</code></p>
+  </li>
+</ol>
+
+<h3 id="三-数学运算">三、 数学运算</h3>
+
+<h4 id="expr-命令">expr 命令</h4>
+
+<ol>
+  <li>
+    <p>对数字的基本计算，做比较</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>	<span class="nb">expr </span>2 <span class="se">\&gt;</span> 5 // 输出0代表假
+  <span class="nb">expr </span>2 <span class="se">\&lt;</span>5 // 输出1代表真
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p>对字符串做处理</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="nb">expr </span>length <span class="s2">"ni hao"</span>  // 输出6 ， 字符串长度
+<span class="nb">expr </span>substr <span class="s2">"ni hao"</span> 2 4 //输出 i ha , 第2个开始截取4个字符
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="的应用--注意和--不同">$(())的应用 ； （注意和 $($()) 不同）</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre><span class="nv">b</span><span class="o">=</span><span class="k">$((</span><span class="m">1</span><span class="o">+</span><span class="m">2</span><span class="k">))</span>   // 3
+<span class="nb">echo</span> <span class="k">$((</span><span class="m">100</span><span class="o">*(</span><span class="m">1</span><span class="o">+</span><span class="m">100</span><span class="o">)/</span><span class="m">2</span><span class="k">))</span> // 550
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+:ET

@@ -1,0 +1,146 @@
+I"�<h3 id="一-read-读取键盘的值">一、 read 读取键盘的值</h3>
+
+<p>read 常见参数：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="rouge-code"><pre>1. <span class="nb">read</span> <span class="nt">-p</span>  // 提示信息
+2. <span class="nb">read</span> <span class="nt">-t</span> 	// 秒数，超过该秒数自动退出
+3. <span class="nb">read</span> <span class="nt">-n</span>  // 允许输入字符数
+4. <span class="nb">read</span> <span class="nt">-s</span>  // 隐藏输入内容，如passwd
+5. <span class="nb">read</span> <span class="nt">-r</span>		// 允许让输入特殊字符（空格、/、<span class="se">\、</span>等都当做字符串）
+
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="二-流程控制语句if">二、 流程控制语句if</h3>
+
+<p>语法格式:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre>语法结构：
+<span class="k">if  </span>条件测试操作 1: <span class="k">then
+	</span>commands
+<span class="k">elif </span>条件测试操作 2: <span class="k">then
+	</span>commands
+<span class="k">elif </span>条件测试操作 3: <span class="k">then
+        </span>commands
+...
+<span class="k">else
+	</span>commands
+<span class="k">fi</span>	
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h3 id="三-test-测试命令">三、 test 测试命令</h3>
+
+<h4 id="test-命令格式">test 命令格式</h4>
+
+<ol>
+  <li>
+    <p>test 测试条件命令, eg :</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="nb">test </span>2 <span class="nt">-gt</span> 5 // 2 是否大于5
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">[</code> 测试条件命令 <code class="language-plaintext highlighter-rouge">]</code> , eg :</p>
+
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="o">[</span> 2 <span class="nt">-gt</span> 5 <span class="o">]</span>  // 2是否大于5
+</pre></td></tr></tbody></table></code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="数值比较">数值比较</h4>
+
+<p><img src="/assets/images/2020/1-20-test1.png" alt="1-20-test1" /></p>
+
+<p><img src="/assets/images/2020/1-20-test2.png" alt="1-20-test2" /></p>
+
+<h4 id="字符串比较">字符串比较</h4>
+
+<p><img src="/assets/images/2020/1-20-test3.png" alt="1-20-test3" /></p>
+
+<p><img src="/assets/images/2020/1-20-test4.png" alt="1-20-test4" /></p>
+
+<p><strong>字符串比较注意事项</strong></p>
+
+<ol>
+  <li>
+    <p>大于号和小于号必须转义，要不然 <code class="language-plaintext highlighter-rouge">SHELL</code> 会把它当成重定向符号。(大于和小于它们的顺序和 <code class="language-plaintext highlighter-rouge">sort</code> 排序是不一样的)</p>
+  </li>
+  <li>
+    <p>在 <code class="language-plaintext highlighter-rouge">test</code> 比较测试中，它使用的是<strong>ASCII</strong> 顺序，大写字母是小于小写字母的;(<code class="language-plaintext highlighter-rouge">sort</code> 刚好相反)</p>
+  </li>
+</ol>
+
+<h4 id="文件比较">文件比较</h4>
+
+<p><img src="/assets/images/2020/1-20-test5.png" alt="1-20-test5" /></p>
+
+<p><img src="/assets/images/2020/1-20-test6.png" alt="1-20-test6" /></p>
+
+<p><img src="/assets/images/2020/1-20-test7.png" alt="1-20-test7" /></p>
+
+<p><img src="/assets/images/2020/1-20-test8.png" alt="1-20-test8" /></p>
+
+<h3 id="四-流程控制句中复杂条件和通配符">四、 流程控制句中复杂条件和通配符</h3>
+
+<h4 id="1-联合判断语句">1. 联合判断语句</h4>
+
+<p>格式如下：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="rouge-code"><pre>1. <span class="o">[</span> 条件判断一 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">(||)</span> <span class="o">[</span> 条件判断二 <span class="o">]</span>
+
+2. <span class="o">[</span>条件判断一 <span class="nt">-a</span> <span class="o">(</span><span class="nt">-o</span><span class="o">)</span> 条件判断二 <span class="nt">-a</span> <span class="o">(</span><span class="nt">-o</span><span class="o">)</span> 条件判断三]
+
+3. <span class="o">[[</span>条件判断一 <span class="o">&amp;&amp;</span> <span class="o">(||)</span> 条件判断二 <span class="o">]]</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<h4 id="2--和的区别汇总">2. <code class="language-plaintext highlighter-rouge">[[</code> ……<code class="language-plaintext highlighter-rouge">]]</code>和<code class="language-plaintext highlighter-rouge">[</code>……<code class="language-plaintext highlighter-rouge">]</code>的区别汇总</h4>
+
+<p><img src="/assets/images/2020/1-20-ifup1.png" alt="1-20-ifup1" /></p>
+
+<p><img src="/assets/images/2020/1-20-ifup2.png" alt="1-20-ifup2" /></p>
+
+<p><img src="/assets/images/2020/1-20-ifup3.png" alt="1-20-ifup3" /></p>
+
+<h4 id="3-通配符">3. 通配符</h4>
+
+<p><img src="/assets/images/2020/1-20-ifup4.png" alt="1-20-ifup4" /></p>
+
+<p><img src="/assets/images/2020/1-20-ifup5.png" alt="1-20-ifup5" /></p>
+
+<p><img src="/assets/images/2020/1-20-ifup6.png" alt="1-20-ifup6" /></p>
+
+<h4 id="4-通配符与正则使用场合">4. 通配符与正则使用场合</h4>
+
+<ol>
+  <li>
+    <p>通配符一般是放命令里的, 即<code class="language-plaintext highlighter-rouge">shell</code>里</p>
+  </li>
+  <li>
+    <p>正则一般是用在字符串搜索上</p>
+  </li>
+</ol>
+
+:ET

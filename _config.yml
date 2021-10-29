@@ -8,27 +8,27 @@
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 #--------------------------
 
-title: OneV's Den
+title: CWZ
 
-tagline: 上善若水，人淡如菊
+tagline: 正己才可以化人，尽己才可以服人
 description: >-
-    上善若水，人淡如菊。这里是王巍 (onevcat) 的博客，用来记录一些技术和想法，主要专注于 Swift 和 iOS 开发。
-url: 'https://onevcat.com'
-author: 王巍 (onevcat)
-avatar: /assets/images/avatar.jpg
+    这里是臭袜子 (cwz) 的博客，用来记录一些技术和想法，主要专注于 PHP 开发。
+url: 'https://chouwazi.cn'
+author: 臭袜子 (cwz)
+avatar: /assets/images/icon.jpeg
 
 github:
-  username: onevcat
+  username: daohualing82
 
 twitter:
-  username: onevcat
+  username: 暂无
 
 social:
-  name: onevcat
-  email: onev@onevcat.com
+  name: cwz
+  email: shenyelilin@126.com
   links:
-    - https://github.com/onevcat
-    - https://twitter.com/onevcat
+    - https://github.com/daohualing82
+    - 暂无
 
 lang: zh-Hans
 
@@ -42,17 +42,18 @@ google_site_verification: 1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw
 baseurl: ''
 
 # Change to your timezone › http://www.timezoneconverter.com/cgi-bin/findzone/findzone
-timezone: Asia/Tokyo
+timezone: Asia/ShangHai
 
 disqus:
   comments: false  # boolean type, the global switch for posts comments.
-  shortname: 'onevcat'    # Fill with your Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
+  shortname: 'cwz'    # Fill with your Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
 
-utterances:
-  comments: true
-  light_theme: github-light
-  dark_theme: photon-dark
-  repo: onevcat/OneV-s-Den-Comments
+  # 这个可能是提交页面评论的东西
+# utterances:
+#   comments: true
+#   light_theme: github-light
+#   dark_theme: photon-dark
+#   repo: onevcat/OneV-s-Den-Comments
 
 # Prefer color scheme setting, available values:
 #

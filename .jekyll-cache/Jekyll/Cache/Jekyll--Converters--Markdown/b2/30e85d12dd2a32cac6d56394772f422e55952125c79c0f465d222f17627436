@@ -1,0 +1,58 @@
+I"<h3 id="一--centos6-系统的启动过程及相关配置文件">一、  centos6 系统的启动过程及相关配置文件</h3>
+
+<ul>
+  <li>
+    <p>centos6启动过程, 如下图</p>
+
+    <p><img src="/assets/images/2020/1-17-centos61.png" alt="1-17-centos61" /></p>
+  </li>
+  <li>
+    <p>centos6 启动相关配置文件</p>
+
+    <ol>
+      <li>
+        <p>/boot/grub/grub.conf</p>
+      </li>
+      <li>
+        <p>/etc/inittab  // 系统启动级别</p>
+      </li>
+      <li>
+        <p>/etc/init.d/network</p>
+
+        <p><img src="/assets/images/2020/1-17-centos62.png" alt="1-17-centos62" /></p>
+      </li>
+      <li>
+        <p>/etc/rc.local // 所有服务都运行成功后，设置开机自动执行某个命令</p>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="二-centos78-系统的启动过程-及相关配置文件">二、 centos7/8 系统的启动过程 及相关配置文件</h3>
+
+<ul>
+  <li>
+    <p>centos7/8 启动过程</p>
+
+    <p><img src="/assets/images/2020/1-17-centos71.png" alt="1-17-centos71" /></p>
+  </li>
+  <li>
+    <p>centos6和7版本管理服务的比较</p>
+  </li>
+</ul>
+
+<p><img src="/assets/images/2020/1-17-centos72.png" alt="1-17-centos72" /></p>
+
+<p><img src="/assets/images/2020/1-17-centos73.png" alt="1-17-centos73" /></p>
+
+<p><img src="/assets/images/2020/1-17-centos74.png" alt="1-17-centos74" /></p>
+
+<ul>
+  <li>运行级别 及 切换</li>
+</ul>
+
+<p><img src="/assets/images/2020/1-17-centos75.png" alt="1-17-centos75" /></p>
+
+<p><img src="/assets/images/2020/1-17-centos76.png" alt="1-17-centos76" /></p>
+
+:ET

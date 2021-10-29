@@ -1,0 +1,4 @@
+I"�<blockquote>
+  <p>本文是自己学习Linux的一节笔记， 主要介绍 Linux 中 计划任务 与日志管理中使用， 其中计划任务用到<code class="language-plaintext highlighter-rouge">at</code> 和 <code class="language-plaintext highlighter-rouge">cron</code>的命令, 日志管理用到 <code class="language-plaintext highlighter-rouge">rsyslog</code> 和 <code class="language-plaintext highlighter-rouge">systemd-journald </code>等 。</p>
+</blockquote>
+:ET
